@@ -1,15 +1,28 @@
+let mostPopularWordsList = []
+
+document.body.onload = function() {
+  chrome.storage.sync.get('mostPopularWords', function(result) {
+    mostPopularWordsList = result.mostPopularWords.split(',')
+  })
+  
+}
+
 chrome.runtime.onMessage.addListener(function(response) {
   let selectedText = response.selectedText
-  createStatisticPopup(countWords(selectedText), countUniqueWords(selectedText))
+  createStatisticPopup(selectedText)
 })
 
 function getTextPopularity(text) {
-  chrome.storage.sync.get('mostPopularWords', function(result) {
+  let numberOfPopularWords = 0
+  let uniqueWordsList = getUniqueWords(text)
 
-      let mostPopularWords = result.mostPopularWords.join(',')
-      let wordsList = getAllWords(text)
-
-    })
+  mostPopularWordsList.forEach(popularWord => {
+    if(uniqueWordsList.includes(popularWord)) {
+      numberOfPopularWords++
+    }
+  })
+  let percentOfPopularWords = Math.round((numberOfPopularWords / mostPopularWordsList.length) * 100)
+  return percentOfPopularWords
 }
 
 function getAllWords(text) {
@@ -40,7 +53,7 @@ function countUniqueWords(text) {
   return uniqueWordsNumber
 }
 
-function createStatisticPopup(wordsNumber, uniqueWordsNumber) {
+function createStatisticPopup(text) {
   let popupBlock = document.createElement('div')
   let textContainer = document.createElement('div')
   let wordCountBlock = document.createElement('p')
@@ -51,16 +64,17 @@ function createStatisticPopup(wordsNumber, uniqueWordsNumber) {
   let closeBtn = document.createElement('button')
 
 
-  wordCountBlock.innerText = `Number of words: ${wordsNumber}`
+  wordCountBlock.innerText = `Number of words: ${countWords(text)}`
   wordCountBlock.classList.add('wordCountBlock')
 
-  uniqueWordCountBlock.innerText = `Number of unique words: ${uniqueWordsNumber}`
+  uniqueWordCountBlock.innerText = `Number of unique words: ${countUniqueWords(text)}`
   uniqueWordCountBlock.classList.add('wordCountBlock')
   uniqueWordCountBlock.classList.add('unique')
 
   graphContainer.classList.add('graphContainer')
   graphBlock.classList.add('graphBlock')
   graphActiveBlock.classList.add('graphActiveBlock')
+  graphActiveBlock.style.height = `${getTextPopularity(text)}%`
 
   closeBtn.classList.add('closeBtn')
   closeBtn.innerText = 'X'

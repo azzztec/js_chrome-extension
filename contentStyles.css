@@ -16,6 +16,10 @@ html {
 
 .closeBtn {
   align-self: flex-end;
+  width: 30px;
+  height: 30px;
+  color: #ffffff;
+  background-color: transparent;
 }
 
 .showStatisticPopup {
