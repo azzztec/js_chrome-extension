@@ -30,6 +30,7 @@ function createStatisticPopup(wordsNumber, uniqueWordsNumber) {
   let graphContainer = document.createElement('div')
   let graphBlock = document.createElement('div')
   let graphActiveBlock = document.createElement('div')
+  let closeBtn = document.createElement('button')
 
 
   wordCountBlock.innerText = `Number of words: ${wordsNumber}`
@@ -43,9 +44,17 @@ function createStatisticPopup(wordsNumber, uniqueWordsNumber) {
   graphBlock.classList.add('graphBlock')
   graphActiveBlock.classList.add('graphActiveBlock')
 
+  closeBtn.classList.add('closeBtn')
+  closeBtn.innerText = 'X'
+  closeBtn.onclick = function() {
+    popupBlock.remove()
+  }
+
   popupBlock.classList.add('showStatisticPopup')
 
   document.body.prepend(popupBlock)
+
+  popupBlock.prepend(closeBtn)
 
   textContainer.append(wordCountBlock)
   textContainer.append(uniqueWordCountBlock)
