@@ -1,8 +1,28 @@
 chrome.runtime.onMessage.addListener(function(response) {
-  createStatisticPopup()
+  let selectedText = response.selectedText
+  createStatisticPopup(countWords(selectedText), countUniqueWords(selectedText))
 })
 
-function createStatisticPopup() {
+function countWords(text) {
+  let wordsNumber = text.split(' ').length
+  return wordsNumber
+}
+
+function countUniqueWords(text) {
+  let uniqueWordsList = []
+  let wordsList = text.split(' ')
+
+  wordsList.forEach(word => {
+    if(!uniqueWordsList.includes(word)) {
+      uniqueWordsList.push(word)
+    }
+  });
+
+  let uniqueWordsNumber = uniqueWordsList.length
+  return uniqueWordsNumber
+}
+
+function createStatisticPopup(wordsNumber, uniqueWordsNumber) {
   let popupBlock = document.createElement('div')
   let textContainer = document.createElement('div')
   let wordCountBlock = document.createElement('p')
@@ -12,10 +32,10 @@ function createStatisticPopup() {
   let graphActiveBlock = document.createElement('div')
 
 
-  wordCountBlock.innerText = 'Number of words: '
+  wordCountBlock.innerText = `Number of words: ${wordsNumber}`
   wordCountBlock.classList.add('wordCountBlock')
 
-  uniqueWordCountBlock.innerText = 'Number of unique words: '
+  uniqueWordCountBlock.innerText = `Number of unique words: ${uniqueWordsNumber}`
   uniqueWordCountBlock.classList.add('wordCountBlock')
   uniqueWordCountBlock.classList.add('unique')
 
