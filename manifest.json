@@ -2,7 +2,7 @@
   "author": "Artem Klepcha",
   "manifest_version": 2,
   "name": "Words Stat",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "View words statistic about selected text.",
   "icons": {
     "16": "images/get_started16.png",
@@ -21,10 +21,10 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "persistent": false,
+    "page": "background.html"
   },
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus", "storage"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

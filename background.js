@@ -1,9 +1,12 @@
+import { MOST_POPULAR_WORDS } from './config.js'
+
 chrome.runtime.onInstalled.addListener(function() {
   chrome.contextMenus.create({
     "id": 'wordsStat',
     "title": 'Words Stat',
     "contexts": ["selection"]
   })
+  chrome.storage.sync.set({'mostPopularWords': MOST_POPULAR_WORDS});
 })
 
 chrome.contextMenus.onClicked.addListener(function(menuInfo) {

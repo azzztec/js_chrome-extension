@@ -3,14 +3,28 @@ chrome.runtime.onMessage.addListener(function(response) {
   createStatisticPopup(countWords(selectedText), countUniqueWords(selectedText))
 })
 
+function getTextPopularity(text) {
+  chrome.storage.sync.get('mostPopularWords', function(result) {
+
+      let mostPopularWords = result.mostPopularWords.join(',')
+      let wordsList = getAllWords(text)
+
+    })
+}
+
+function getAllWords(text) {
+  let wordsList = text.split(' ')
+  return wordsList
+}
+
 function countWords(text) {
-  let wordsNumber = text.split(' ').length
+  let wordsNumber = getAllWords(text).length
   return wordsNumber
 }
 
-function countUniqueWords(text) {
+function getUniqueWords(text) {
   let uniqueWordsList = []
-  let wordsList = text.split(' ')
+  let wordsList = getAllWords(text)
 
   wordsList.forEach(word => {
     if(!uniqueWordsList.includes(word)) {
@@ -18,7 +32,11 @@ function countUniqueWords(text) {
     }
   });
 
-  let uniqueWordsNumber = uniqueWordsList.length
+  return uniqueWordsList
+}
+
+function countUniqueWords(text) {
+  let uniqueWordsNumber = getUniqueWords(text).length
   return uniqueWordsNumber
 }
 
