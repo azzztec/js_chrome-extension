@@ -4,7 +4,6 @@ document.body.onload = function() {
   chrome.storage.sync.get('mostPopularWords', function(result) {
     mostPopularWordsList = result.mostPopularWords.split(',')
   })
-  
 }
 
 chrome.runtime.onMessage.addListener(function(response) {
