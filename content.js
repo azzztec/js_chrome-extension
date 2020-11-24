@@ -1,9 +1,11 @@
 let mostPopularWordsList = []
+let allPageText = document.body.innerText
 
 document.body.onload = function() {
   chrome.storage.sync.get('mostPopularWords', function(result) {
     mostPopularWordsList = result.mostPopularWords.split(',')
   })
+  chrome.storage.local.set({allPageText})
 }
 
 chrome.runtime.onMessage.addListener(function(response) {

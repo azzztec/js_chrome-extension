@@ -9,14 +9,6 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.set({'mostPopularWords': MOST_POPULAR_WORDS});
 })
 
-// chrome.tabs.onCreated.addListener(function() {
-
-// })
-
-// chrome.runtime.onMessage.addListener(function(message) {
-//   console.log(message)
-// })
-
 chrome.contextMenus.onClicked.addListener(function(menuInfo) {
   let selectedText = menuInfo.selectionText
 
